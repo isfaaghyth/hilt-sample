@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerNewNote"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    app:behavior_hideable="true"
+    app:behavior_skipCollapsed="true"
+    android:padding="10dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:background="@null"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:hint="Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtNote"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:gravity="top|start"
+        android:background="@null"
+        android:hint="write something..."
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtTitle" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SAVE"
+        app:layout_constraintTop_toBottomOf="@+id/edtNote" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
