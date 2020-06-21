@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import app.isfaaghyth.hilt.ui.dataview.EmptyStateDataView
 import app.isfaaghyth.hilt.ui.factory.ItemTypeFactory
 import java.util.*
 
@@ -31,8 +32,22 @@ class BaseListAdapter(
         return items[position].type(adapterTypeFactory)
     }
 
+    private fun setEmptyState() {
+        addItem(EmptyStateDataView())
+    }
+
     fun addItem(items: List<BaseDataView>) {
-        this.items.addAll(items)
+        if (items.isEmpty()) {
+            setEmptyState()
+        } else {
+            this.items.clear()
+            this.items.addAll(items)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun addItem(item: BaseDataView) {
+        this.items.add(item)
         notifyDataSetChanged()
     }
 

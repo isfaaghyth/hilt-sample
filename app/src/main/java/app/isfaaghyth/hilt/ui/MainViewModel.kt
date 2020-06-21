@@ -4,11 +4,13 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.isfaaghyth.hilt.data.entity.Note
 import app.isfaaghyth.hilt.data.repository.NoteRepository
 import app.isfaaghyth.hilt.ui.dataview.NoteDataView
 import app.isfaaghyth.hilt.ui.dataview.NoteDataView.Companion.mapToDataView
-import app.isfaaghyth.hilt.util.ObservableHandler.IO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 interface MainContract {
     fun addNote(title: String, note: String)
@@ -28,7 +30,7 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     override fun addNote(title: String, note: String) {
-        IO.execute {
+        viewModelScope.launch(Dispatchers.IO) {
             noteRepository.addNote(
                 Note(
                     title = title,
@@ -41,12 +43,12 @@ class MainViewModel @ViewModelInject constructor(
     override fun getNotes() {
         val notes = noteRepository.getNotes()
         _notes.addSource(notes) {
-            _notes.value = mapToDataView(it)
+            _notes.setValue(mapToDataView(it))
         }
     }
 
     override fun deleteNote(note: NoteDataView) {
-        IO.execute {
+        viewModelScope.launch(Dispatchers.IO) {
             noteRepository.deleteNote(
                 mapToDataView(note)
             )

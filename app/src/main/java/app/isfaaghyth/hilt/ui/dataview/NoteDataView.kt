@@ -16,15 +16,15 @@ data class NoteDataView(
     }
 
     companion object {
-        fun mapToDataView(note: List<Note>?): List<NoteDataView>? {
-            return note?.map {
+        fun mapToDataView(note: List<Note>): List<NoteDataView> {
+            return note.map {
                 NoteDataView(
                     id = it.id,
                     title = it.title,
                     note = it.note,
                     date = it.date
                 )
-            }?.toList()
+            }.toList()
         }
 
         fun mapToDataView(noteDataView: NoteDataView): Note {

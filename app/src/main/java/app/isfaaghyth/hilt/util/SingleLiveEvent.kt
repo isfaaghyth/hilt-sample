@@ -2,7 +2,7 @@ package app.isfaaghyth.hilt.util
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * <p>
  * Note that only one observer is going to be notified of changes.
  */
-class SingleLiveEvent<T> : MutableLiveData<T>() {
+class SingleLiveEvent<T> : MediatorLiveData<T>() {
 
     private val mPending = AtomicBoolean(false)
 
