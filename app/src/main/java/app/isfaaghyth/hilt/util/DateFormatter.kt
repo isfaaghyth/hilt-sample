@@ -9,7 +9,7 @@ object DateFormatter {
     @SuppressLint("SimpleDateFormat")
     private val formatter = SimpleDateFormat("d MMM yyyy HH:mm:ss")
 
-    fun format(timestamp: Long): String {
+    fun dateFormat(timestamp: Long): String {
         return formatter.format(Date(timestamp))
     }
 

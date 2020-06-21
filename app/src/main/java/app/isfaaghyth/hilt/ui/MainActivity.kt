@@ -5,8 +5,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import app.isfaaghyth.hilt.R
-import app.isfaaghyth.hilt.ui.adapter.NoteAdapter
+import app.isfaaghyth.hilt.base.BaseListAdapter
 import app.isfaaghyth.hilt.ui.dataview.NoteDataView
+import app.isfaaghyth.hilt.ui.factory.NoteItemTypeFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,9 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val notes = arrayListOf<NoteDataView>()
     private val noteAdapter by lazy {
-        NoteAdapter(notes, ::deleteNote)
+        BaseListAdapter(NoteItemTypeFactory(::deleteNote))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,16 +42,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservable() {
         viewModel.notes.observe(this, Observer {
-            notes.clear()
-            notes.addAll(it)
-            noteAdapter.notifyDataSetChanged()
+            noteAdapter.addItem(it)
         })
     }
 
     private fun deleteNote(position: Int, dataView: NoteDataView) {
         viewModel.deleteNote(dataView)
-        notes.removeAt(position)
-        noteAdapter.notifyDataSetChanged()
+        noteAdapter.removeItemByIndex(position, dataView)
     }
 
 }
