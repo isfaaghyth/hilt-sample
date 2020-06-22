@@ -8,7 +8,7 @@ data class NoteDataView(
     val id: Long,
     val title: String,
     val note: String,
-    val date: String
+    val date: Long
 ): BaseDataView() {
 
     override fun type(typeFactory: ItemTypeFactory): Int {

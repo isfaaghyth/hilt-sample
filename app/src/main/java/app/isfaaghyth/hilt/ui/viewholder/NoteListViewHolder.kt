@@ -7,8 +7,10 @@ import androidx.annotation.LayoutRes
 import app.isfaaghyth.hilt.R
 import app.isfaaghyth.hilt.base.AbstractViewHolder
 import app.isfaaghyth.hilt.ui.dataview.NoteDataView
+import app.isfaaghyth.hilt.util.DateFormatter.timeAgo
 import app.isfaaghyth.hilt.util.hide
 import app.isfaaghyth.hilt.util.show
+import app.isfaaghyth.hilt.util.showWithCondition
 
 internal open class NoteListViewHolder(
     view: View,
@@ -22,13 +24,23 @@ internal open class NoteListViewHolder(
 
     override fun bind(element: NoteDataView?) {
         if (element == null) return
-
         txtTitle.text = element.title
-        txtTime.text = element.date
+        txtTime.text = timeAgo(element.date)
         txtNote.text = element.note
 
-        if (element.title.isEmpty()) { txtTitle.hide() }
-        itemView.setOnClickListener { btnDelete.hide() }
+        onTitleState(element)
+        onItemAction(element)
+    }
+
+    private fun onTitleState(element: NoteDataView) {
+        val hasTitle = element.title.isNotEmpty()
+        txtTitle.showWithCondition(hasTitle)
+    }
+
+    private fun onItemAction(element: NoteDataView) {
+        itemView.setOnClickListener {
+            btnDelete.hide()
+        }
 
         itemView.setOnLongClickListener {
             btnDelete.show()

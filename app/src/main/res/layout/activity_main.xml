@@ -17,9 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false"
-            app:spanCount="2"
-            tools:listitem="@layout/item_note"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+            tools:listitem="@layout/item_note"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnAddNote"

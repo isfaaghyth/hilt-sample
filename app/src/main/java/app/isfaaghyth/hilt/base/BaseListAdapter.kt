@@ -8,7 +8,7 @@ import app.isfaaghyth.hilt.ui.dataview.EmptyStateDataView
 import app.isfaaghyth.hilt.ui.factory.ItemTypeFactory
 import java.util.*
 
-class BaseListAdapter(
+open class BaseListAdapter(
     private val adapterTypeFactory: ItemTypeFactory,
     private val items: ArrayList<BaseDataView> = arrayListOf()
 ): RecyclerView.Adapter<AbstractViewHolder<BaseDataView>>() {
