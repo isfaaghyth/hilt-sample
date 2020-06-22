@@ -1,4 +1,4 @@
-package app.isfaaghyth.hilt.ui
+package app.isfaaghyth.hilt.ui.main
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
