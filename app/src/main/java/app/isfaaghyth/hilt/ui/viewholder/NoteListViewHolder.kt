@@ -14,6 +14,7 @@ import app.isfaaghyth.hilt.util.showWithCondition
 
 internal open class NoteListViewHolder(
     view: View,
+    private val onClick: (NoteDataView) -> Unit,
     private val onDelete: (Int, NoteDataView) -> Unit
 ): AbstractViewHolder<NoteDataView>(view) {
 
@@ -39,6 +40,7 @@ internal open class NoteListViewHolder(
 
     private fun onItemAction(element: NoteDataView) {
         itemView.setOnClickListener {
+            onClick(element)
             btnDelete.hide()
         }
 

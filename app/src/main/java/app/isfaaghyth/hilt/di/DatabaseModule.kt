@@ -27,7 +27,7 @@ import javax.inject.Singleton
     }
 
     @Provides
-    fun provideLogDao(db: NoteDatabase): NoteDao {
+    fun provideNoteDao(db: NoteDatabase): NoteDao {
         return db.noteDao()
     }
 

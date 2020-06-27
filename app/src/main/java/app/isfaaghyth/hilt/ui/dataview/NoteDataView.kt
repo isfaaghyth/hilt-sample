@@ -1,15 +1,18 @@
 package app.isfaaghyth.hilt.ui.dataview
 
+import android.os.Parcelable
 import app.isfaaghyth.hilt.base.BaseDataView
 import app.isfaaghyth.hilt.data.entity.Note
 import app.isfaaghyth.hilt.ui.factory.ItemTypeFactory
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class NoteDataView(
     val id: Long,
     val title: String,
     val note: String,
     val date: Long
-): BaseDataView() {
+): BaseDataView(), Parcelable {
 
     override fun type(typeFactory: ItemTypeFactory): Int {
         return typeFactory.type(this)
