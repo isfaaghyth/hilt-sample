@@ -8,13 +8,14 @@ import app.isfaaghyth.hilt.R
 import app.isfaaghyth.hilt.base.AbstractViewHolder
 import app.isfaaghyth.hilt.ui.dataview.NoteDataView
 import app.isfaaghyth.hilt.util.DateFormatter.timeAgo
+import app.isfaaghyth.hilt.util.RouteManager
 import app.isfaaghyth.hilt.util.hide
 import app.isfaaghyth.hilt.util.show
 import app.isfaaghyth.hilt.util.showWithCondition
+import kotlin.LazyThreadSafetyMode.NONE as NONE
 
 internal open class NoteListViewHolder(
     view: View,
-    private val onClick: (NoteDataView) -> Unit,
     private val onDelete: (Int, NoteDataView) -> Unit
 ): AbstractViewHolder<NoteDataView>(view) {
 
@@ -22,6 +23,8 @@ internal open class NoteListViewHolder(
     private val txtTitle: TextView = view.findViewById(R.id.txtTitle)
     private val txtNote: TextView = view.findViewById(R.id.txtNote)
     private val btnDelete: ImageView = view.findViewById(R.id.btnDelete)
+
+    private val context by lazy(NONE) { itemView.context }
 
     override fun bind(element: NoteDataView?) {
         if (element == null) return
@@ -40,7 +43,7 @@ internal open class NoteListViewHolder(
 
     private fun onItemAction(element: NoteDataView) {
         itemView.setOnClickListener {
-            onClick(element)
+            RouteManager.route(context, "note://detail/${element.id}")
             btnDelete.hide()
         }
 

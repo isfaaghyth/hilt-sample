@@ -9,16 +9,28 @@ class NoteRepositoryImpl @Inject constructor(
     private val database: NoteDao
 ): NoteRepository {
 
-    override fun addNote(note: Note) {
-        database.addNote(note)
+    override fun add(note: Note) {
+        database.add(note)
     }
 
-    override fun getNotes(): LiveData<List<Note>> {
-        return database.getNotes()
+    override fun notes(): LiveData<List<Note>> {
+        return database.notes()
     }
 
-    override fun deleteNote(note: Note) {
-        return database.deleteNote(note)
+    override fun noteById(id: Long): Note {
+        return database.noteById(id)
+    }
+
+    override fun isExist(id: Long): List<Note> {
+        return database.exist(id)
+    }
+
+    override fun delete(id: Long) {
+        return database.delete(id)
+    }
+
+    override fun update(note: Note) {
+        return database.update(note)
     }
 
 }

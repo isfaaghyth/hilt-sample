@@ -19,7 +19,15 @@
         </activity>
         <activity
             android:name=".ui.detail.NoteDetailActivity"
-            android:parentActivityName=".ui.main.MainActivity"/>
+            android:parentActivityName=".ui.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="note" android:host="add" />
+                <data android:scheme="note" android:host="detail" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

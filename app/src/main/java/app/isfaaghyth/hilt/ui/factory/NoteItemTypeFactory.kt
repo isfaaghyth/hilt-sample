@@ -8,8 +8,7 @@ import app.isfaaghyth.hilt.ui.dataview.NoteDataView
 import app.isfaaghyth.hilt.ui.viewholder.EmptyStateViewHolder
 
 class NoteItemTypeFactory(
-    private val onDelete: (Int, NoteDataView) -> Unit,
-    private val onClick: (NoteDataView) -> Unit
+    private val onDelete: (Int, NoteDataView) -> Unit
 ): ItemTypeFactory {
 
     override fun type(element: NoteDataView): Int {
@@ -22,7 +21,7 @@ class NoteItemTypeFactory(
 
     override fun createViewHolder(parent: View, type: Int): AbstractViewHolder<*> {
         return when(type) {
-            NoteListViewHolder.LAYOUT -> NoteListViewHolder(parent, onClick, onDelete)
+            NoteListViewHolder.LAYOUT -> NoteListViewHolder(parent, onDelete)
             EmptyStateViewHolder.LAYOUT -> EmptyStateViewHolder(parent)
             else -> createViewHolder(parent, type)
         }

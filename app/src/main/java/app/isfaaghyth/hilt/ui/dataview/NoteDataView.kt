@@ -8,10 +8,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class NoteDataView(
-    val id: Long,
-    val title: String,
-    val note: String,
-    val date: Long
+    val id: Long = 0,
+    val title: String = "",
+    val note: String = "",
+    val date: Long = 0
 ): BaseDataView(), Parcelable {
 
     override fun type(typeFactory: ItemTypeFactory): Int {
@@ -19,6 +19,22 @@ data class NoteDataView(
     }
 
     companion object {
+        fun mapToDataView(note: Note): NoteDataView {
+            return NoteDataView(
+                id = note.id,
+                title = note.title,
+                note = note.note,
+                date = note.date
+            )
+        }
+
+        fun mapToDataView(id: Long = 0, title: String, note: String): Note {
+            return Note(
+                title = title,
+                note = note
+            ).also { it.id = id }
+        }
+
         fun mapToDataView(note: List<Note>): List<NoteDataView> {
             return note.map {
                 NoteDataView(
@@ -28,14 +44,6 @@ data class NoteDataView(
                     date = it.date
                 )
             }.toList()
-        }
-
-        fun mapToDataView(noteDataView: NoteDataView): Note {
-            return Note(
-                title = noteDataView.title,
-                note = noteDataView.note,
-                date = noteDataView.date
-            ).also { it.id = noteDataView.id }
         }
     }
 

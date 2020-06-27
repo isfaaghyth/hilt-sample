@@ -1,68 +1,83 @@
 package app.isfaaghyth.hilt.ui.detail
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import app.isfaaghyth.hilt.R
-import app.isfaaghyth.hilt.ui.dataview.NewNoteDataView
-import app.isfaaghyth.hilt.ui.dataview.NoteDataView
+import app.isfaaghyth.hilt.ui.dataview.DetailViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
 
 @AndroidEntryPoint
 class NoteDetailActivity : AppCompatActivity() {
 
+    private val viewModel: NoteDetailViewModel by viewModels()
+    private lateinit var viewState: DetailViewState
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        intent?.let {
-            it.getParcelableExtra(KEY_NOTE) as? NoteDataView?
-        }.also {
-            it.let {
-                edtTitle.setText(it?.title)
-                edtNote.setText(it?.note)
+        initObservable()
+        getParam()
+    }
+
+    private fun getParam() {
+        intent?.data?.let {
+            Pair(it.host, it.lastPathSegment)
+        }?.let {
+            // get view state based on appLink's host
+            viewState = when (it.first) {
+                PAGE_DETAIL -> DetailViewState.Detail
+                PAGE_ADD -> DetailViewState.Add
+                else -> DetailViewState.None
+            }
+
+            // get note id from last segment
+            it.second?.let { noteId ->
+                viewModel.getNoteById(noteId.toLong())
             }
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onSaveNote()
-        return super.onSupportNavigateUp()
+    private fun initObservable() {
+        viewModel.note.observe(this, Observer {
+            edtTitle.setText(it.title)
+            edtNote.setText(it.note)
+        })
     }
 
-    private fun onSaveNote() {
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        onDetailDismiss()
+        super.onBackPressed()
+    }
+
+    private fun onDetailDismiss() {
         val title = edtTitle.text.toString()
         val note = edtNote.text.toString()
 
-        setResult(Activity.RESULT_OK, Intent().apply {
-            putExtra(KEY_NOTE, NewNoteDataView(
-                title = title,
-                note = note
-            ))
-        })
+        when (viewState) {
+            is DetailViewState.Add -> {
+                viewModel.addNote(title, note)
+            }
+            is DetailViewState.Detail -> {
+                viewModel.updateNote(title, note)
+            }
+        }
 
         finish()
     }
 
     companion object {
-        const val REQUEST_CODE = 100
-        const val KEY_NOTE = "note"
-
-        fun route(activity: Activity) {
-            val intent = Intent(activity, NoteDetailActivity::class.java)
-            activity.startActivityForResult(intent, REQUEST_CODE)
-        }
-
-        fun route(activity: Activity, note: NoteDataView) {
-            activity.startActivity(Intent(activity, NoteDetailActivity::class.java).apply {
-                putExtra(KEY_NOTE, note)
-            })
-        }
+        private const val PAGE_ADD = "add"
+        private const val PAGE_DETAIL = "detail"
     }
 
 }
